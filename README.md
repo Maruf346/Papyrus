@@ -1,7 +1,7 @@
-# 📚 Advanced Research Paper Recommendation System
+# 📚 Papyrus - Advanced Research Paper Recommendation System
 
 ### Overview
-**Advanced Research Paper Recommendation System** is a smart web application that analyzes research paper abstracts and recommends the most relevant papers to users.  
+**Papyrus** is a smart web application that analyzes research paper abstracts and recommends the most relevant papers to users.  
 It uses **Natural Language Processing (NLP)** and **data mining** techniques to understand semantic similarity between papers and deliver accurate, context-aware recommendations.
 
 ---
