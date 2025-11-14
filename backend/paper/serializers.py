@@ -1,0 +1,14 @@
+from rest_framework import serializers # type: ignore
+from .models import *
+
+class PaperSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Paper
+        fields = '__all__'  
+        read_only_fields = ['id', 'created_at']
+
+class UserUploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserUpload
+        fields = '__all__'  
+        read_only_fields = ['id', 'created_at']
