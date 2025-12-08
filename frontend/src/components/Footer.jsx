@@ -7,12 +7,11 @@ const Footer = () => {
         <h2 id="footer-heading" className="sr-only">Footer</h2>
         <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
           <div className="flex flex-wrap items-start justify-between gap-8">
-            <div className="max-w-96 space-y-8"><a className="relative  cursor-pointer" href="/"><img alt="Paperguide"
-              loading="lazy" width="5843" height="1230" decoding="async" data-nimg="1"
-              className="h-8 w-[200px] object-contain" style={{ color: 'transparent' }}
-              srcSet="/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Flogofull.5a37e894.png&amp;w=3840&amp;q=75 1x"
-              src="/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Flogofull.5a37e894.png&amp;w=3840&amp;q=75" /></a>
-              <p className="text-sm leading-6 text-stone-600">Paperguide is the all-in-one solution for students, educators, and
+            <div className="max-w-96 space-y-8"><a className="relative  cursor-pointer" href="/"><img alt="Papyrus"
+              loading="lazy" width="40" height="1230" decoding="async" data-nimg="1"
+              className="h-32 w-80 object-contain" style={{ color: 'transparent' }}
+              src="/image.png" /></a>
+              <p className="text-sm leading-6 text-stone-600">Papyrus is the all-in-one solution for students, educators, and
                 researchers. Easily generate APA, MLA, Chicago citations, and access paraphrasing, grammar checking,
                 readability scores, and more.</p>
               <div className="flex space-x-6"><a className="text-lg text-stone-400 hover:text-stone-500"
@@ -74,6 +73,9 @@ const Footer = () => {
                     &amp; Student Discount</a></li>
                   <li><a target="_blank" className="text-sm leading-6 text-stone-600 hover:text-stone-900" href="/about/">About
                     Us</a></li>
+                  <li><a target="_blank" className="text-sm leading-6 text-stone-600 hover:text-stone-900" href="/blog/">Blog</a></li>
+                  <li><a target="_blank" className="text-sm leading-6 text-stone-600 hover:text-stone-900" href="/careers/">Careers</a></li>
+                  
                 </ul>
               </div>
               <div className="mt-10 w-44 md:mt-0">
@@ -89,6 +91,10 @@ const Footer = () => {
                     href="/ai-literature-review/">AI Literature Review</a></li>
                   <li><a target="_self" className="text-sm leading-6 text-stone-600 hover:text-stone-900"
                     href="/ai-academic-search/">AI Academic Search</a></li>
+                  <li><a target="_self" className="text-sm leading-6 text-stone-600 hover:text-stone-900"
+                    href="/ai-paraphraser/">AI Paraphraser</a></li>
+                  <li><a target="_self" className="text-sm leading-6 text-stone-600 hover:text-stone-900"
+                    href="/ai-grammar-checker/">AI Grammar Checker</a></li>
                   
                 </ul>
               </div>
@@ -105,6 +111,10 @@ const Footer = () => {
                     href="/blog/paperguide-vs-mendeley/">Paperguide Vs Mendeley</a></li>
                   <li><a target="_blank" className="text-sm leading-6 text-stone-600 hover:text-stone-900"
                     href="/blog/paperguide-vs-endnote/">Paperguide Vs Endnote</a></li>
+                  <li><a target="_blank" className="text-sm leading-6 text-stone-600 hover:text-stone-900"
+                    href="/blog/paperguide-vs-refworks/">Paperguide Vs Refworks</a></li>
+                  <li><a target="_blank" className="text-sm leading-6 text-stone-600 hover:text-stone-900"
+                    href="/blog/paperguide-vs-elsevier/">Paperguide Vs Elsevier</a></li>
                 </ul>
               </div>
               <div className="mt-10 w-44 md:mt-0">
@@ -118,12 +128,15 @@ const Footer = () => {
                     href="/solutions/clinical-trails/">Clinical Trials</a></li>
                   <li><a target="_blank" className="text-sm leading-6 text-stone-600 hover:text-stone-900"
                     href="/solutions/academic-research-literature-review/">Academic Research Literature Review</a></li>
-                  
+                  <li><a target="_blank" className="text-sm leading-6 text-stone-600 hover:text-stone-900"
+                    href="/solutions/educators-students/">Educators &amp; Students</a></li>
+                  <li><a target="_blank" className="text-sm leading-6 text-stone-600 hover:text-stone-900"
+                    href="/solutions/publishers/">Publishers</a></li>
                 </ul>
               </div>
             </div>
           </div>
-          <div className="mt-16 border-t border-stone-900/10 pt-8 sm:mt-20 lg:mt-24">
+          <div className="mt-4 border-t border-stone-900/10 pt-4 sm:mt-6 lg:mt-6">
             <p className="text-xs leading-5 text-stone-500">Copyright © 2025 Papyrus, All rights reserved.</p>
           </div>
         </div>

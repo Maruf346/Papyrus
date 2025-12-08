@@ -21,7 +21,7 @@ export default function Home() {
 
                 <FeaturesGrid />
 
-                <section className="bg-white-500 rounded-2xl p-8">
+                <section id="find-papers" className="bg-white-500 rounded-2xl p-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                         <div>
                             <h3 className="text-5xl font-bold mb-5">Find Papers and Get Research-backed Answers</h3>
