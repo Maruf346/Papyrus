@@ -28,8 +28,8 @@ export default function Header() {
             </div>
 
             <div className="hidden lg:flex items-center gap-4">
-                <button className="text-sm font-semibold px-6 py-2 border">Log in</button>
-                <button className="hidden lg:inline-flex items-center py-2 px-4 bg-stone-900 text-white rounded">Get Started</button>
+                <button className="hidden lg:inline-flex items-center text-sm font-semibold py-2.5 px-4 border rounded">Log in</button>
+                <button className="hidden lg:inline-flex items-center py-2 px-4 bg-stone-900 text-white rounded"><a href="/search">Get Started</a></button>
             </div>
 
             {/* mobile menu button */}
