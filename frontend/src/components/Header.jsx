@@ -12,7 +12,7 @@ export default function Header(){
 
         <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-stone-600">
           <Link to="/features" className="hover:text-stone-900">Features</Link>
-          <Link to="/pricing" className="hover:text-stone-900">Pricing</Link>
+          <Link to="/search" className="hover:text-stone-900">Search</Link>
           <Link to="/about" className="hover:text-stone-900">About</Link>
         </nav>
       </div>
