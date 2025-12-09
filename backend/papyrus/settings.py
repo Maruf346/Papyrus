@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,6 +32,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",   # <--- must be first
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -117,9 +119,53 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/' 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Papyrus Admin",
+    "site_header": "Papyrus",
+    "site_brand": "Papyrus",
+    "site_logo": "/static/images/logo.png",  # optional, we can skip for now
+    "welcome_sign": "Welcome to the Papyrus Admin Panel",
+    "copyright": "Papyrus",
+
+    # top-right user menu
+    "user_avatar": None,
+
+    # Icons
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+
+        # Your models
+        "paper.Paper": "fas fa-book",
+        "paper.UserUpload": "fas fa-upload",
+    },
+
+    # Side menu ordering
+    "default_icon_parents": "fas fa-chevron-right",
+    "default_icon_children": "fas fa-circle",
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "lux",   # clean light Bootstrap theme
+    "dark_mode_theme": "darkly",  
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+
+    "brand_color": "primary",
+    "accent": "primary",
+    "navbar": "navbar-dark bg-primary",
+    "no_navbar_border": False,
+}

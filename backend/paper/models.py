@@ -28,4 +28,4 @@ class UserUpload(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title if self.title else f"User Upload {self.upload_id}"
+        return self.title or f"User Upload {self.upload_id}"
