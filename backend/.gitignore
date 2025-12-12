@@ -1,7 +1,6 @@
 staticfiles/
 /staticfiles/
 /static/staticfiles/
-/static
 # Virtual environment
 myenv/
 venv/
