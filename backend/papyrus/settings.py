@@ -111,6 +111,18 @@ REST_FRAMEWORK = {
     ],
 }
 
+# Spectacular Settings
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Papyrus API',
+    'DESCRIPTION': 'API documentation for Papyrus',
+    'VERSION': 'v1',
+    'TERMS_OF_SERVICE': 'https://www.google.com/policies/terms/',
+    'CONTACT': {'email': 'maruf.bshs@gmail.com'},
+    'LICENSE': {'name': 'BSD License'},
+    'SERVE_INCLUDE_SCHEMA': False,  # optional: hides raw schema in UI
+}
+
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
