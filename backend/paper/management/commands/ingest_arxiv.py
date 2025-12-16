@@ -1,18 +1,17 @@
 import json
-from datetime import datetime
 
 from django.core.management.base import BaseCommand
 from paper.models import Paper
 
 
 class Command(BaseCommand):
-    help = "Ingest arXiv JSON dataset into Paper model"
+    help = "Ingest preprocessed arXiv dataset into Paper model"
 
     def add_arguments(self, parser):
         parser.add_argument(
             "file_path",
             type=str,
-            help="Path to the arXiv JSON file"
+            help="Path to the cleaned arXiv JSON file"
         )
 
     def handle(self, *args, **kwargs):
@@ -27,30 +26,19 @@ class Command(BaseCommand):
                 try:
                     data = json.loads(line)
 
-                    paper_id = data.get("id")
+                    paper_id = data.get("paper_id")
                     title = data.get("title", "").strip()
                     authors = data.get("authors", "").strip()
                     abstract = data.get("abstract", "").strip()
                     categories = data.get("categories")
-                    journal_ref = data.get("journal-ref")
+                    journal_ref = data.get("journal_ref")
                     doi = data.get("doi")
+                    publication_year = data.get("publication_year")
 
-                    # Skip if essential fields are missing
-                    if not paper_id or not abstract or not title:
+                    # Essential fields check
+                    if not paper_id or not title or not abstract:
                         skipped_count += 1
                         continue
-
-                    # Extract publication year from versions
-                    publication_year = None
-                    versions = data.get("versions", [])
-                    if versions:
-                        created_date = versions[0].get("created")
-                        try:
-                            publication_year = datetime.strptime(
-                                created_date, "%a, %d %b %Y %H:%M:%S %Z"
-                            ).year
-                        except Exception:
-                            publication_year = None
 
                     # Avoid duplicates
                     if Paper.objects.filter(paper_id=paper_id).exists():
