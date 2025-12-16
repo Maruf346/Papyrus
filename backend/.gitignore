@@ -19,3 +19,6 @@ env/
 *.pyc
 __pycache__/
 *.pyo
+
+# Database
+db.sqlite3
