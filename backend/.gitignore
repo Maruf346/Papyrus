@@ -1,6 +1,10 @@
 staticfiles/
 /staticfiles/
 /static/staticfiles/
+/dataset/
+/datasets/
+dataset/
+
 # Virtual environment
 myenv/
 venv/
