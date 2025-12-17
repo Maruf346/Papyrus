@@ -50,7 +50,7 @@ class UserUploadViewSet(viewsets.ModelViewSet):
         for item in similar:
             p = Paper.objects.filter(id=item["paper_id"]).first()
             if p:
-                paper_data = PaperSerializer(p).data
+                paper_data = PaperListSerializer(p).data
                 paper_data["similarity"] = item["score"]
                 papers.append(paper_data)
 
