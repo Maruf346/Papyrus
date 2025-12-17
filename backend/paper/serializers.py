@@ -25,5 +25,13 @@ class PaperListSerializer(serializers.ModelSerializer):
 class UserUploadSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserUpload
-        fields = '__all__'  
-        read_only_fields = ['id', 'created_at', 'upload_id', 'embedding']
+        fields = [
+            'id',
+            'upload_id',
+            'title',
+            'authors',
+            'abstract',
+            'categories',
+            'created_at',
+        ]  
+        read_only_fields = ['id', 'created_at', 'upload_id']
