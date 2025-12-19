@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header.jsx";
-import { FaCalendarAlt, FaUserFriends, FaBookOpen, FaExternalLinkAlt, FaTag, FaDownload } from "react-icons/fa";
+import { FaCalendarAlt, FaUserFriends, FaBookOpen, FaExternalLinkAlt, FaTag } from "react-icons/fa";
 
 export default function SearchResult() {
     const [searchParams] = useSearchParams();
@@ -10,13 +10,15 @@ export default function SearchResult() {
     const query = searchParams.get("q");
     const [results, setResults] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [topN, setTopN] = useState(10); // Added top_n state
 
     useEffect(() => {
         if (!query) return;
 
         setLoading(true);
 
-        fetch(`http://127.0.0.1:8000/api/papers/search/?q=${encodeURIComponent(query)}`)
+        // Modified API call to include top_n parameter
+        fetch(`http://127.0.0.1:8000/api/papers/search/?q=${encodeURIComponent(query)}&top_n=${topN}`)
             .then(res => res.json())
             .then(data => {
                 setResults(data);
@@ -26,7 +28,7 @@ export default function SearchResult() {
                 console.error("Search fetch error:", err);
                 setLoading(false);
             });
-    }, [query]);
+    }, [query, topN]); // Added topN to dependency array
 
     if (!query) {
         return (
@@ -125,12 +127,26 @@ export default function SearchResult() {
 
                 {/* Main Content */}
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                    {/* Filters Bar (Optional - can add later) */}
+                    {/* Filters Bar - Added top_n selector */}
                     <div className="mb-8 flex flex-wrap justify-between items-center gap-4">
                         <div className="text-stone-600">
-                            Showing <span className="font-bold">{results.results.length}</span> of {results.count} papers
+                            Showing top <span className="font-bold">{topN}</span> of {results.count} papers
                         </div>
                         <div className="flex items-center gap-3">
+                            {/* Added top_n dropdown */}
+                            <select
+                                value={topN}
+                                onChange={(e) => setTopN(Number(e.target.value))}
+                                className="border rounded-lg px-4 py-2 text-sm bg-white shadow-sm"
+                            >
+                                <option value={10}>Top 10</option>
+                                <option value={20}>Top 20</option>
+                                <option value={30}>Top 30</option>
+                                <option value={40}>Top 40</option>
+                                <option value={50}>Top 50</option>
+                                <option value={100}>Top 100</option>
+                            </select>
+
                             <select className="border rounded-lg px-4 py-2 text-sm bg-white shadow-sm">
                                 <option>Sort by: Relevance</option>
                                 <option>Newest First</option>
@@ -148,8 +164,8 @@ export default function SearchResult() {
                     {/* Papers Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                         {results.results.map((paper, index) => (
-                            <div 
-                                key={paper.paper_id} 
+                            <div
+                                key={paper.paper_id}
                                 className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden group cursor-pointer transform hover:-translate-y-1"
                                 onClick={() => navigate(`/paper/${paper.paper_id}`)}
                             >
@@ -204,12 +220,12 @@ export default function SearchResult() {
                                                     </div>
                                                 )}
                                             </div>
-                                            
+
                                             {/* Categories Tags */}
                                             <div className="flex flex-wrap gap-1">
                                                 {formatCategories(paper.categories).slice(0, 2).map((cat, idx) => (
-                                                    <span 
-                                                        key={idx} 
+                                                    <span
+                                                        key={idx}
                                                         className="text-xs px-2 py-1 rounded-full bg-stone-100 text-stone-600 flex items-center gap-1"
                                                     >
                                                         <FaTag className="text-xs" />
@@ -236,14 +252,14 @@ export default function SearchResult() {
                         ))}
                     </div>
 
-                    {/* Statistics Section */}
+                    {/* Statistics Section - Updated first stat card */}
                     <div className="bg-gradient-to-r from-stone-50 to-gray-50 rounded-2xl p-8 mb-12 border border-gray-200">
                         <h2 className="text-2xl font-bold text-stone-800 mb-6">Search Insights</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="bg-white p-6 rounded-xl shadow-sm border">
-                                <div className="text-3xl font-bold text-blue-600 mb-2">{results.count}</div>
-                                <div className="text-stone-700 font-semibold">Total Papers</div>
-                                <div className="text-sm text-stone-500 mt-1">Found for your query</div>
+                                <div className="text-3xl font-bold text-blue-600 mb-2">{topN}</div>
+                                <div className="text-stone-700 font-semibold">Results Limit</div>
+                                <div className="text-sm text-stone-500 mt-1">Showing top {topN} papers</div>
                             </div>
                             <div className="bg-white p-6 rounded-xl shadow-sm border">
                                 <div className="text-3xl font-bold text-green-600 mb-2">
