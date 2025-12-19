@@ -9,13 +9,14 @@ from paper.utils.embeddings import generate_embedding
 from paper.utils.faiss_index import search_similar_papers
 from django.db.models import Q
 from django.db.models import Count
-
+from rest_framework.permissions import AllowAny # type: ignore
 
 class PaperViewSet(viewsets.ModelViewSet):
     queryset = Paper.objects.all().order_by('-created_at')
     serializer_class = PaperSerializer
     search_fields = ['title', 'authors', 'abstract', 'categories', 'journal_ref']
     ordering_fields = ['publication_year', 'created_at']
+    permission_classes = [AllowAny]
     
     @action(detail=False, methods=["get"])
     def search(self, request):
@@ -104,6 +105,7 @@ class UserUploadViewSet(viewsets.ModelViewSet):
     serializer_class = UserUploadSerializer
     search_fields = ['title', 'authors', 'abstract', 'categories']
     ordering_fields = ['created_at']
+    permission_classes = [AllowAny]
 
     @action(detail=False, methods=['post'])
     def recommend(self, request):
