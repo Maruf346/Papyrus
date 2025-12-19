@@ -22,7 +22,8 @@ export default function Header() {
                     >
                         Features
                     </Link>
-                    <Link to="/search" className="hover:text-stone-900">Search</Link>
+                    <Link to="/search" className="hover:text-stone-900">Recommender</Link>
+                    <Link to="/trends" className="hover:text-stone-900">Trends</Link>
                     <Link to="/about" className="hover:text-stone-900">About</Link>
                 </nav>
             </div>
