@@ -54,10 +54,24 @@ class PaperViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=["get"])
     def trends(self, request):
+        top_n = int(request.query_params.get("top_n", 10))
+
+        # Step 1: find top N categories overall
+        top_categories_qs = (
+            Paper.objects
+            .exclude(categories__isnull=True)
+            .values("categories")
+            .annotate(total=Count("id"))
+            .order_by("-total")[:top_n]
+        )
+
+        top_categories = [row["categories"] for row in top_categories_qs]
+
+        # Step 2: yearly trend for top categories only
         qs = (
             Paper.objects
+            .filter(categories__in=top_categories)
             .exclude(publication_year__isnull=True)
-            .exclude(categories__isnull=True)
             .values("categories", "publication_year")
             .annotate(count=Count("id"))
             .order_by("categories", "publication_year")
@@ -70,12 +84,12 @@ class PaperViewSet(viewsets.ModelViewSet):
             year = row["publication_year"]
             count = row["count"]
 
-            if category not in trends:
-                trends[category] = {}
+            trends.setdefault(category, {})[year] = count
 
-            trends[category][year] = count
-
-        return Response(trends)
+        return Response({
+            "top_n": top_n,
+            "trends": trends
+        })
 
 
 
