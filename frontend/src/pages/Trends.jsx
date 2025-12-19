@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
 import {
   FaChartLine,
   FaCalendarAlt,
@@ -545,6 +546,7 @@ const Trends = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
