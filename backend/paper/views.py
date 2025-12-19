@@ -54,9 +54,14 @@ class PaperViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=["get"])
     def trends(self, request):
-        top_n = int(request.query_params.get("top_n", 10))
+        try:
+            top_n = int(request.query_params.get("top_n", 10))
+        except ValueError:
+            top_n = 10
 
-        # Step 1: find top N categories overall
+        top_n = max(1, min(top_n, 50))  # safety limit
+
+        # Step 1: find top categories
         top_categories_qs = (
             Paper.objects
             .exclude(categories__isnull=True)
@@ -67,7 +72,7 @@ class PaperViewSet(viewsets.ModelViewSet):
 
         top_categories = [row["categories"] for row in top_categories_qs]
 
-        # Step 2: yearly trend for top categories only
+        # Step 2: yearly trends
         qs = (
             Paper.objects
             .filter(categories__in=top_categories)
@@ -80,16 +85,16 @@ class PaperViewSet(viewsets.ModelViewSet):
         trends = {}
 
         for row in qs:
-            category = row["categories"]
-            year = row["publication_year"]
-            count = row["count"]
-
-            trends.setdefault(category, {})[year] = count
+            trends.setdefault(row["categories"], {})[
+                row["publication_year"]
+            ] = row["count"]
 
         return Response({
-            "top_n": top_n,
+            "default_top_n": 10,
+            "used_top_n": top_n,
             "trends": trends
         })
+
 
 
 
