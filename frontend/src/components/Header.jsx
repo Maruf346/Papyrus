@@ -8,25 +8,15 @@ export default function Header() {
     const navigate = useNavigate();
     const searchRef = useRef(null);
 
-    const handleSearch = async (e) => {
+    const handleSearch = (e) => {
         e.preventDefault();
         if (!query.trim()) return;
 
-        try {
-            const res = await fetch(
-                `http://127.0.0.1:8000/api/papers/search/?q=${encodeURIComponent(query)}`
-            );
-            const data = await res.json();
-
-            setIsSearchOpen(false);
-
-            navigate("/search-results", {
-                state: { query, results: data },
-            });
-        } catch (err) {
-            console.error(err);
-        }
+        setIsSearchOpen(false);
+        navigate(`/search-results?q=${encodeURIComponent(query.trim())}`);
+        setQuery("");
     };
+
 
     /* 🔴 Close on outside click */
     useEffect(() => {
