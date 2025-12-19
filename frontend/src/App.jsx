@@ -1,10 +1,11 @@
-import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
 import Search from './pages/Search'
 import Trends from './pages/Trends'
 import SearchResult from './pages/SearchResult'
+import Recommendations from './pages/Recommendations'
+
 
 export default function App(){
   return (
@@ -14,6 +15,7 @@ export default function App(){
       <Route path="/search" element={<Search/>} />
       <Route path="/trends" element={<Trends/>} />
       <Route path="/search-results" element={<SearchResult/>} />
+      <Route path="/recommendations" element={<Recommendations/>} />
     </Routes>
   )
 }
