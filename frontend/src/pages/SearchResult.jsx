@@ -165,9 +165,9 @@ export default function SearchResult() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                         {results.results.map((paper, index) => (
                             <div
-                                key={paper.paper_id}
+                                key={paper.id}
                                 className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden group cursor-pointer transform hover:-translate-y-1"
-                                onClick={() => navigate(`/paper/${paper.paper_id}`)}
+                                onClick={() => navigate(`/paper/${paper.id}`)}
                             >
                                 {/* Card Header with Gradient */}
                                 <div className="p-6 pb-4 border-b border-gray-100">
@@ -214,9 +214,15 @@ export default function SearchResult() {
                                                     <span>{paper.publication_year}</span>
                                                 </div>
                                                 {paper.doi && (
-                                                    <div className="flex items-center gap-1">
+                                                    <div
+                                                        className="flex items-center gap-1 cursor-pointer"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation(); // Prevent card click
+                                                            navigate(`/paper/${paper.id}`);
+                                                        }}
+                                                    >
                                                         <FaExternalLinkAlt />
-                                                        <span className="text-blue-600 hover:underline">DOI</span>
+                                                        <span className="text-blue-600 hover:underline">Details</span>
                                                     </div>
                                                 )}
                                             </div>
