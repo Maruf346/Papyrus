@@ -5,6 +5,8 @@ from rest_framework.decorators import action # type: ignore
 from rest_framework.response import Response # type: ignore
 from rest_framework import status # type: ignore
 from .utils import generate_embedding, get_similar_papers
+from paper.utils.faiss_index import search_similar_papers
+
 
 class PaperViewSet(viewsets.ModelViewSet):
     queryset = Paper.objects.all().order_by('-created_at')
@@ -43,7 +45,10 @@ class UserUploadViewSet(viewsets.ModelViewSet):
         user_upload.save()
 
         # Step 3: find similar papers
-        similar = get_similar_papers(embedding, top_n=10)
+        # similar = get_similar_papers(embedding, top_n=10)
+        
+        # Using FAISS for similarity search
+        similar = search_similar_papers(embedding, top_n=10)
 
         # Step 4: fetch Paper objects & attach similarity scores
         papers = []
