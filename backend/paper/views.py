@@ -8,6 +8,7 @@ from rest_framework import status # type: ignore
 from paper.utils.embeddings import generate_embedding
 from paper.utils.faiss_index import search_similar_papers
 from django.db.models import Q
+from django.db.models import Count
 
 
 class PaperViewSet(viewsets.ModelViewSet):
@@ -50,6 +51,32 @@ class PaperViewSet(viewsets.ModelViewSet):
             "count": len(serializer.data),
             "results": serializer.data
         })
+    
+    @action(detail=False, methods=["get"])
+    def trends(self, request):
+        qs = (
+            Paper.objects
+            .exclude(publication_year__isnull=True)
+            .exclude(categories__isnull=True)
+            .values("categories", "publication_year")
+            .annotate(count=Count("id"))
+            .order_by("categories", "publication_year")
+        )
+
+        trends = {}
+
+        for row in qs:
+            category = row["categories"]
+            year = row["publication_year"]
+            count = row["count"]
+
+            if category not in trends:
+                trends[category] = {}
+
+            trends[category][year] = count
+
+        return Response(trends)
+
 
 
 
