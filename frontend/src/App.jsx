@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import About from './pages/About'
 import Search from './pages/Search'
 import Trends from './pages/Trends'
+import SearchResult from './pages/SearchResult'
 
 export default function App(){
   return (
@@ -12,6 +13,7 @@ export default function App(){
       <Route path="/about" element={<About/>} />
       <Route path="/search" element={<Search/>} />
       <Route path="/trends" element={<Trends/>} />
+      <Route path="/search-results" element={<SearchResult/>} />
     </Routes>
   )
 }
