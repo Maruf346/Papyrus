@@ -4,7 +4,8 @@ from .serializers import *
 from rest_framework.decorators import action # type: ignore
 from rest_framework.response import Response # type: ignore
 from rest_framework import status # type: ignore
-from .utils import generate_embedding, get_similar_papers
+# from .utils import generate_embedding, get_similar_papers
+from paper.utils.embeddings import generate_embedding
 from paper.utils.faiss_index import search_similar_papers
 
 
