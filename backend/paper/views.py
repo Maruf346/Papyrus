@@ -21,7 +21,7 @@ class PaperViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["get"])
     def search(self, request):
         query = request.query_params.get("q")
-        top_n = int(request.query_params.get("top_n", 10))
+        top_n = int(request.query_params.get("top_n", 12))
 
         if not query:
             return Response({"error": "q parameter is required"}, status=400)
@@ -56,9 +56,9 @@ class PaperViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["get"])
     def trends(self, request):
         try:
-            top_n = int(request.query_params.get("top_n", 10))
+            top_n = int(request.query_params.get("top_n", 12))
         except ValueError:
-            top_n = 10
+            top_n = 12
 
         top_n = max(1, min(top_n, 50))  # safety limit
 
@@ -134,7 +134,7 @@ class UserUploadViewSet(viewsets.ModelViewSet):
         # similar = get_similar_papers(embedding, top_n=10)
         
         # Using FAISS for similarity search
-        similar = search_similar_papers(embedding, top_n=10)
+        similar = search_similar_papers(embedding, top_n=12)
 
         # Step 4: fetch Paper objects & attach similarity scores
         papers = []

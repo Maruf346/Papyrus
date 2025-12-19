@@ -10,7 +10,7 @@ export default function SearchResult() {
     const query = searchParams.get("q");
     const [results, setResults] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [topN, setTopN] = useState(10); // Added top_n state
+    const [topN, setTopN] = useState(12); // Added top_n state
 
     useEffect(() => {
         if (!query) return;
