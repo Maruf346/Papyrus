@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+import os
 
 
 class PaperConfig(AppConfig):
@@ -6,5 +7,6 @@ class PaperConfig(AppConfig):
     name = 'paper'
 
     def ready(self):
-        from paper.utils.faiss_index import build_faiss_index
-        build_faiss_index()
+        if os.environ.get("RUN_MAIN") == "true":
+            from paper.utils.faiss_index import build_faiss_index
+            build_faiss_index()

@@ -6,9 +6,14 @@ from paper.models import Paper
 index = None
 paper_ids = []
 
+_index_built = False
 
+# Build FAISS index from existing paper embeddings
 def build_faiss_index():
-    global index, paper_ids
+    global index, paper_ids, _index_built
+
+    if _index_built:
+        return
 
     papers = Paper.objects.exclude(embedding__isnull=True).values("id", "embedding")
 
@@ -23,18 +28,14 @@ def build_faiss_index():
         embeddings.append(row["embedding"])
         paper_ids.append(row["id"])
 
-    # Convert to numpy array
     vectors = np.array(embeddings).astype("float32")
-
-    # Normalize vectors (for cosine similarity)
     faiss.normalize_L2(vectors)
 
     dim = vectors.shape[1]
-
-    # Create FAISS index
     index = faiss.IndexFlatIP(dim)
     index.add(vectors)
 
+    _index_built = True
     print(f"FAISS index built with {index.ntotal} vectors.")
 
 
