@@ -303,9 +303,9 @@ const Recommendations = () => {
               
               return (
                 <div
-                  key={paper.paper_id || paper.id}
+                  key={paper.id}
                   className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden group cursor-pointer transform hover:-translate-y-1 relative"
-                  onClick={() => navigate(`/paper/${paper.paper_id || paper.id}`)}
+                  onClick={() => navigate(`/paper/${paper.id}`)}
                 >
                   {/* Match Score Badge */}
                   <div className="absolute top-4 right-4 z-10">
@@ -365,7 +365,7 @@ const Recommendations = () => {
                               className="flex items-center gap-1 cursor-pointer"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                navigate(`/paper/${paper.paper_id || paper.id}`);
+                                navigate(`/paper/${paper.id}`);
                               }}
                             >
                               <FaExternalLinkAlt />
@@ -400,7 +400,7 @@ const Recommendations = () => {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/paper/${paper.paper_id || paper.id}`);
+                        navigate(`/paper/${paper.id}`);
                       }}
                       className="bg-purple-600 text-white p-2 rounded-lg shadow-lg hover:bg-purple-700 transition"
                     >
