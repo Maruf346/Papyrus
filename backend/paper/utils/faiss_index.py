@@ -36,3 +36,23 @@ def build_faiss_index():
     index.add(vectors)
 
     print(f"FAISS index built with {index.ntotal} vectors.")
+
+
+# Search for similar papers using FAISS
+def search_similar_papers(query_embedding, top_n=10):
+    if index is None:
+        raise RuntimeError("FAISS index not initialized")
+
+    query_vector = np.array([query_embedding]).astype("float32")
+    faiss.normalize_L2(query_vector)
+
+    scores, indices = index.search(query_vector, top_n)
+
+    results = []
+    for score, idx in zip(scores[0], indices[0]):
+        results.append({
+            "paper_id": paper_ids[idx],
+            "score": float(score)
+        })
+
+    return results
