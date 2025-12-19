@@ -1,40 +1,33 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { FaSearch } from 'react-icons/fa'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
 
 export default function Header() {
-    const [showSearch, setShowSearch] = useState(false)
-    const [searchQuery, setSearchQuery] = useState("")
-    const navigate = useNavigate()
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [query, setQuery] = useState("");
+    const navigate = useNavigate();
 
     const handleSearch = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        if (!query.trim()) return;
 
-        if (!searchQuery.trim()) return
-
-        // 🔥 Backend API call
         try {
-            const response = await fetch(
-                `http://127.0.0.1:8000/api/papers/search/?q=${encodeURIComponent(searchQuery)}`
-            )
-            const data = await response.json()
+            const res = await fetch(
+                `http://127.0.0.1:8000/api/papers/search/?q=${encodeURIComponent(query)}`
+            );
+            const data = await res.json();
 
-            // Later you'll store this in global state / context
-            console.log("API Response:", data)
-
-            // 🔁 Redirect to search results page
             navigate("/search-results", {
-                state: { query: searchQuery, results: data }
-            })
-
-        } catch (error) {
-            console.error("Search error:", error)
+                state: { query, results: data },
+            });
+        } catch (err) {
+            console.error(err);
         }
-    }
+    };
 
     return (
-        <header className="flex items-center justify-between h-20 px-6 lg:px-20 relative">
-            
+        <header className="relative flex items-center justify-between h-20 px-6 lg:px-20 border-b">
+
             {/* Left */}
             <div className="flex items-center gap-6">
                 <Link to="/">
@@ -50,13 +43,61 @@ export default function Header() {
                 </nav>
             </div>
 
+            {/* 🔍 CENTER SEARCH */}
+            <div className="absolute left-1/2 -translate-x-1/2 w-full max-w-xl px-4">
+                {isSearchOpen && (
+                    <form
+                        onSubmit={handleSearch}
+                        className="
+              flex items-center
+              bg-white
+              border
+              rounded-full
+              px-5
+              py-3
+              shadow-lg
+              animate-search
+            "
+                    >
+                        <input
+                            autoFocus
+                            type="text"
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            placeholder="Search research papers..."
+                            className="flex-1 outline-none text-stone-700 placeholder-stone-400"
+                        />
+
+                        <button
+                            type="submit"
+                            className="
+                ml-3
+                w-10 h-10
+                flex items-center justify-center
+                rounded-full
+                bg-stone-900
+                text-white
+                hover:bg-stone-800
+                transition
+              "
+                        >
+                            <FaSearch />
+                        </button>
+                    </form>
+                )}
+            </div>
+
             {/* Right */}
-            <div className="hidden lg:flex items-center gap-4">
-                
-                {/* 🔍 Search Button */}
+            <div className="hidden lg:flex items-center gap-4 z-10">
                 <button
-                    onClick={() => setShowSearch(!showSearch)}
-                    className="p-2 rounded-full border hover:bg-stone-100"
+                    onClick={() => setIsSearchOpen((prev) => !prev)}
+                    className="
+            p-2
+            rounded-full
+            border
+            hover:bg-stone-100
+            transition
+          "
                 >
                     <FaSearch />
                 </button>
@@ -72,29 +113,6 @@ export default function Header() {
                     Get Started
                 </Link>
             </div>
-
-            {/* 🔽 Search Box Dropdown */}
-            {showSearch && (
-                <form
-                    onSubmit={handleSearch}
-                    className="absolute top-full right-6 mt-3 bg-white border rounded-xl shadow-lg p-4 w-96 z-50"
-                >
-                    <input
-                        type="text"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search research papers..."
-                        className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-400"
-                    />
-
-                    <button
-                        type="submit"
-                        className="mt-3 w-full bg-stone-900 text-white py-2 rounded-lg hover:bg-stone-800"
-                    >
-                        Search
-                    </button>
-                </form>
-            )}
         </header>
-    )
+    );
 }
