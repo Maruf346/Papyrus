@@ -7,6 +7,7 @@ from rest_framework import status # type: ignore
 # from .utils import generate_embedding, get_similar_papers
 from paper.utils.embeddings import generate_embedding
 from paper.utils.faiss_index import search_similar_papers
+from django.db.models import Q
 
 
 class PaperViewSet(viewsets.ModelViewSet):
@@ -14,6 +15,42 @@ class PaperViewSet(viewsets.ModelViewSet):
     serializer_class = PaperSerializer
     search_fields = ['title', 'authors', 'abstract', 'categories', 'journal_ref']
     ordering_fields = ['publication_year', 'created_at']
+    
+    @action(detail=False, methods=["get"])
+    def search(self, request):
+        query = request.query_params.get("q")
+        top_n = int(request.query_params.get("top_n", 10))
+
+        if not query:
+            return Response({"error": "q parameter is required"}, status=400)
+
+        # Step 1: semantic search (FAISS)
+        query_embedding = generate_embedding(query)
+        semantic_results = search_similar_papers(query_embedding, top_n=top_n * 2)
+
+        semantic_ids = [item["paper_id"] for item in semantic_results]
+
+        # Step 2: keyword filtering
+        keyword_qs = Paper.objects.filter(
+            Q(title__icontains=query) |
+            Q(abstract__icontains=query)
+        )
+
+        # Step 3: merge IDs (semantic + keyword)
+        combined_ids = set(semantic_ids) | set(
+            keyword_qs.values_list("id", flat=True)
+        )
+
+        papers = Paper.objects.filter(id__in=combined_ids)[:top_n]
+
+        serializer = PaperListSerializer(papers, many=True)
+
+        return Response({
+            "query": query,
+            "count": len(serializer.data),
+            "results": serializer.data
+        })
+
 
 
 class UserUploadViewSet(viewsets.ModelViewSet):
